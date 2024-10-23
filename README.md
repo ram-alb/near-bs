@@ -1,0 +1,3 @@
+# Near BS
+
+This Python tool automates the process of configuring 4G LTE base stations to act as anchors for 5G base stations in non-standalone (NSA) 5G networks. NSA 5G requires 4G stations to handle control signaling, while 5G manages data traffic. The tool efficiently finds the nearest 5G station for each 4G station, ensuring there are no other 4G stations in between, and configures the necessary parameters on the 4G stations to support NSA 5G connectivity.
