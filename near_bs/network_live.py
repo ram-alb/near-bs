@@ -1,7 +1,10 @@
-import os
-import pandas as pd
+import logging
+from typing import List, NamedTuple, Tuple
 
 import oracledb
+from near_bs.utils import get_env_variable
+
+logger = logging.getLogger(__name__)
 
 LTE_SELECT = """
     SELECT DISTINCT
@@ -24,55 +27,54 @@ NR_SELECT = """
 """
 
 
-ATOLL_HOST = os.getenv("ATOLL_HOST")
-ATOLL_PORT = os.getenv("ATOLL_PORT")
-SERVICE_NAME = os.getenv("SERVICE_NAME")
-ATOLL_LOGIN = os.getenv("ATOLL_LOGIN")
-ATOLL_PASSWORD = os.getenv("ATOLL_PASSWORD")
+db_row = Tuple[str, float, float]
 
 
-def _select_network_live_data():
-    dsn = f"{ATOLL_HOST}:{ATOLL_PORT}/{SERVICE_NAME}"
-    with oracledb.connect(
-        user=ATOLL_LOGIN, password=ATOLL_PASSWORD, dsn=dsn
-    ) as connection:
-        with connection.cursor() as cursor:
-            cursor.execute(LTE_SELECT)
-            lte_data = cursor.fetchall()
+class DbCredentials(NamedTuple):
+    """Credentials for Data Base."""
 
-            cursor.execute(NR_SELECT)
-            nr_data = cursor.fetchall()
+    host: str
+    port: int
+    service_name: str
+    login: str
+    password: str
+
+
+def _get_db_credentials() -> DbCredentials:
+    return DbCredentials(
+        host=get_env_variable("ATOLL_HOST"),
+        port=int(get_env_variable("ATOLL_PORT")),
+        service_name=get_env_variable("SERVICE_NAME"),
+        login=get_env_variable("ATOLL_LOGIN"),
+        password=get_env_variable("ATOLL_PASSWORD"),
+    )
+
+
+def _create_db_connection(credentials: DbCredentials) -> oracledb.Connection:
+    dsn = f"{credentials.host}:{credentials.port}/{credentials.service_name}"
+    return oracledb.connect(
+        user=credentials.login,
+        password=credentials.password,
+        dsn=dsn,
+    )
+
+
+def select_network_live_data() -> Tuple[List[db_row], List[db_row]]:
+    """Fetch LTE and NR data from the Network Live database."""
+    credentials = _get_db_credentials()
+    try:
+        with _create_db_connection(credentials) as connection:
+            logger.info("Connected to Network Live db")
+            with connection.cursor() as cursor:
+                cursor.execute(LTE_SELECT)
+                lte_data = cursor.fetchall()
+                logger.info("Fetched LTE data")
+
+                cursor.execute(NR_SELECT)
+                nr_data = cursor.fetchall()
+                logger.info("Fetched NR data")
+    except oracledb.DatabaseError:
+        logger.error("Database error occured", exc_info=True)
+        raise
+
     return lte_data, nr_data
-
-
-def _add_site_id(selected_data):
-    df = pd.DataFrame(selected_data, columns=['site', 'longitude', 'latitude'])
-    df['site_id'] = df['site'].str.extract(r'(\d{5})')
-    return df
-
-
-def _remove_duplicates(df):
-    df_unique = df.drop_duplicates(subset=['site_id', 'longitude', 'latitude'])
-    return df_unique.drop(columns=['site'])
-
-
-def _add_technology(lte_df, nr_df):
-    lte_df['technology'] = lte_df['site_id'].apply(lambda sid: '4G_5G' if sid in nr_df['site_id'].values else '4G')
-
-
-def _filter_lte_only_sites(lte_df, nr_df):
-    return lte_df[~lte_df['site_id'].isin(nr_df['site_id'])]
-
-
-def get_network_live_data():
-    lte_data, nr_data = _select_network_live_data()
-
-    lte_df = _add_site_id(lte_data)
-    nr_df = _add_site_id(nr_data)
-
-    lte_only_df = _filter_lte_only_sites(lte_df, nr_df)
-
-    uniq_lte_df = _remove_duplicates(lte_df)
-    _add_technology(uniq_lte_df, nr_df)
-
-    return lte_only_df, uniq_lte_df

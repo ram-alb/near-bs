@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "near_bs"}]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
+python = ">=3.8.1,<3.12"
 oracledb = "^2.4.1"
 python-dotenv = "^1.0.1"
 pandas = "2.0.3"
@@ -18,6 +18,11 @@ geopy = "^2.4.1"
 [tool.poetry.group.dev.dependencies]
 black = "24.8.0"
 isort = "^5.13.2"
+flake8 = "^7.1.1"
+flake8-print = "^5.0.0"
+flake8-docstrings = "^1.7.0"
+mypy = "^1.13.0"
+pandas-stubs = "2.0.3.230814"
 
 [build-system]
 requires = ["poetry-core"]

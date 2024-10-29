@@ -7,4 +7,7 @@ isort:
 format: isort
 	poetry run black near_bs
 
-.PHONY: install format
+lint:
+	poetry run flake8 near_bs
+
+.PHONY: install isort format lint
