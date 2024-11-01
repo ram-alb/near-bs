@@ -13,6 +13,7 @@ python-dotenv = "^1.0.1"
 pandas = "2.0.3"
 scipy = "1.10.1"
 geopy = "^2.4.1"
+enm-client-scripting = {path = "../local_packages/enm_client_scripting-1.22.2-py2.py3-none-any.whl"}
 
 
 [tool.poetry.group.dev.dependencies]
