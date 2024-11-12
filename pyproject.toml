@@ -14,6 +14,7 @@ pandas = "2.0.3"
 scipy = "1.10.1"
 geopy = "^2.4.1"
 enm-client-scripting = {path = "../local_packages/enm_client_scripting-1.22.2-py2.py3-none-any.whl"}
+paramiko = "^3.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,6 +25,7 @@ flake8-print = "^5.0.0"
 flake8-docstrings = "^1.7.0"
 mypy = "^1.13.0"
 pandas-stubs = "2.0.3.230814"
+types-paramiko = "^3.5.0.20240928"
 
 [build-system]
 requires = ["poetry-core"]
