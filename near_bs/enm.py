@@ -1,6 +1,6 @@
 import logging
 from contextlib import contextmanager
-from typing import Generator, List, NamedTuple
+from typing import Generator, NamedTuple
 
 import enmscripting  # type: ignore
 from enmscripting import ElementGroup, EnmCmdException
@@ -57,10 +57,16 @@ def _cmedit_get(enm: str, command: str) -> ElementGroup:
         return response.get_output()
 
 
-def get_gutranetwork_data(enm: str) -> List[ElementGroup]:
+def get_gutranetwork_data(enm: str) -> ElementGroup:
     """Get GUtraNetwork data from ENM."""
     gutranetwork_command = (
         "cmedit get * --scopefilter (NetworkElement.neType==RadioNode) "
         "GUtraNetwork.GUtraNetworkId -t"
     )
     return _cmedit_get(enm, gutranetwork_command)
+
+
+def get_netype_data(enm: str) -> ElementGroup:
+    """Get MeContext.neType data from ENM."""
+    cli_command = "cmedit get *RBS_* MeContext.neType -t"
+    return _cmedit_get(enm, cli_command)

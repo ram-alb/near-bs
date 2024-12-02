@@ -22,3 +22,22 @@ def parse_lte_sites(gutran_network_data: ElementGroup) -> Set[str]:
             sites.add(node_ids[0].value())
 
     return sites
+
+
+def parse_erbs_sites(netype_data: ElementGroup) -> Set[str]:
+    """Parse sites with neType=ERBS from neType data."""
+    sites: Set[str] = set()
+
+    groups = netype_data.groups()
+    if not groups:
+        logger.warning("No groups found in neType data.")
+        return sites
+
+    table = groups[0]
+    for row in table:
+        sitename = row.find_by_label("NodeId")[0].value()
+        neType = row.find_by_label("neType")[0].value()
+        if neType == "ERBS":
+            sites.add(sitename)
+
+    return sites
