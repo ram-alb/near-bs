@@ -178,3 +178,4 @@ pyrightconfig.json
 .DS_Store
 .tool-versions
 *.csv
+sitelist.txt
