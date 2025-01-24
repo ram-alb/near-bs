@@ -1,4 +1,5 @@
 import logging
+import os
 
 from near_bs.files import save_text_to_file
 from send_mail import send_email
@@ -10,7 +11,7 @@ def send_mobatch_result_by_mail(mobatch_result: str) -> None:
     """Send the result of the mobatch execution as an email attachment."""
     attachment_path = save_text_to_file(mobatch_result, "mobatch_result.txt")
 
-    to = "Ramil.Albakov@kcell.kz"
+    to = os.getenv("TO")
 
     subject = "NR Anchor Configuration Results"
     message = (
