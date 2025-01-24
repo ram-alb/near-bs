@@ -76,4 +76,4 @@ def config_nr_anchor(sitelist_path: str) -> None:
     credentials = _get_enm_credentials()
     with _get_ssh_client(credentials) as ssh_client:
         _upload(ssh_client, sitelist_path)
-        _execute_mobatch(ssh_client)
+        return _execute_mobatch(ssh_client)
