@@ -16,6 +16,9 @@ geopy = "^2.4.1"
 enm-client-scripting = {path = "../local_packages/enm_client_scripting-1.22.2-py2.py3-none-any.whl"}
 paramiko = "^3.5.0"
 
+[tool.poetry.scripts]
+mobatch = "near_bs.scripts.mobatch:mobatch"
+get-csv = "near_bs.scripts.csv:get_csv"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.8.0"

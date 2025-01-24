@@ -59,7 +59,7 @@ def _create_db_connection(credentials: DbCredentials) -> oracledb.Connection:
     )
 
 
-def select_network_live_data() -> Tuple[List[db_row], List[db_row]]:
+def select_data() -> Tuple[List[db_row], List[db_row]]:
     """Fetch LTE and NR data from the Network Live database."""
     credentials = _get_db_credentials()
     try:
@@ -73,6 +73,7 @@ def select_network_live_data() -> Tuple[List[db_row], List[db_row]]:
                 cursor.execute(NR_SELECT)
                 nr_data = cursor.fetchall()
                 logger.info("Fetched NR data")
+        logger.info("Connection to Network Live db closed")
     except oracledb.DatabaseError:
         logger.error("Database error occured", exc_info=True)
         raise

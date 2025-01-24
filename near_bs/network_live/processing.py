@@ -1,7 +1,10 @@
+import logging
 from typing import List, Tuple
 
 import pandas as pd
-from near_bs.network_live import db_row
+from near_bs.network_live.fetcher import db_row
+
+logger = logging.getLogger(__name__)
 
 
 def _prepare_dataframe(selected_data: List[db_row]) -> pd.DataFrame:
@@ -25,7 +28,7 @@ def _filter_lte_only_sites(lte_df: pd.DataFrame, nr_df: pd.DataFrame) -> pd.Data
     return lte_df[~lte_df["site_id"].isin(nr_df["site_id"])]
 
 
-def process_network_live_data(
+def process_data(
     lte_data: List[db_row], nr_data: List[db_row]
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -41,5 +44,7 @@ def process_network_live_data(
 
     uniq_lte_df = _remove_duplicates(lte_df)
     _add_technology(uniq_lte_df, nr_df)
+
+    logger.info("Network Live data proccessed")
 
     return lte_only_df, uniq_lte_df

@@ -6,7 +6,7 @@ from near_bs.utils import get_env_variable
 
 logger = logging.getLogger(__name__)
 
-REMOTE_PATH = "/home/shared/anpusr/nrAnchor/"
+REMOTE_PATH = "/home/shared/anpusr/nrAnchor/near_bs_script"
 SITELIST = "sitelist.txt"
 
 
@@ -56,8 +56,17 @@ def _execute_mobatch(ssh_client: paramiko.SSHClient) -> None:
         f"amosbatch -v username=rbs,password=rbs {sitelist_path} {mos_path}"
     )
     _, stdout, stderr = ssh_client.exec_command(mobatch_command)
-    _ = stdout.read() + stderr.read()
-    logger.info("mobatch was executed")
+
+    output = stdout.read().decode("utf-8")
+    error = stderr.read().decode("utf-8")
+
+    logger.info("mobatch command execution completed.")
+    if output:
+        logger.info(f"Command output:\n{output}")
+        return output
+    if error:
+        logger.error(f"Command error:\n{error}")
+        return error
 
 
 def config_nr_anchor(sitelist_path: str) -> None:
