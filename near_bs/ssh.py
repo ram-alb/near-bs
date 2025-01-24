@@ -55,6 +55,8 @@ def _execute_mobatch(ssh_client: paramiko.SSHClient) -> None:
     mobatch_command = (
         f"amosbatch -v username=rbs,password=rbs {sitelist_path} {mos_path}"
     )
+
+    logger.info("mobatch command execution started.")
     _, stdout, stderr = ssh_client.exec_command(mobatch_command)
 
     output = stdout.read().decode("utf-8")

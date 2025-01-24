@@ -179,3 +179,4 @@ pyrightconfig.json
 .tool-versions
 *.csv
 sitelist.txt
+local_lib/

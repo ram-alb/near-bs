@@ -7,7 +7,7 @@ from near_bs.network_live.processing import process_data
 
 def main() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Main function to select and process network live data.
+    Select and process network live data.
 
     Fetches LTE and NR data from the database, processes it, and returns:
     - A DataFrame with LTE-only sites.

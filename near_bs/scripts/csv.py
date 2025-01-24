@@ -10,4 +10,5 @@ configure_logging(logging.INFO)
 
 
 def get_csv():
+    """Prepare and writes the LTE-NR pairs data to a CSV file."""
     main(run_mobatch=False)

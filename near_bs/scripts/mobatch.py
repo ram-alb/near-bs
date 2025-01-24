@@ -10,4 +10,5 @@ configure_logging(logging.INFO)
 
 
 def mobatch():
+    """Configure the NR anchor using the provided path to the sitelist."""
     main(run_mobatch=True)
