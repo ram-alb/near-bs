@@ -7,6 +7,7 @@ from enmscripting import ElementGroup, TextElement
 cli_commads = {
     "MeContext": "cmedit get *RBS_* MeContext.neType -t",
     "SubNetwork": "cmedit get *RBS_* MeContext",
+    "GUtraNetwork": "cmedit get *RBS* GUtraNetwork",
     "GUtranFreqRelation": "cmedit get *RBS* GUtranFreqRelation",
 }
 

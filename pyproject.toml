@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "near-bs"
-version = "0.1.1"
+version = "0.1.2"
 description = "identify the nearest 5G base station for each 4G base station, facilitating the establishment of an anchor point from the 4G side to ensure the seamless operation of non-standalone 5G (NSA) deployments"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"

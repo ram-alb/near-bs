@@ -18,7 +18,7 @@ def _parse_fdn(fdn: str, mo_type: str) -> Optional[str]:
     return None
 
 
-def parse_sites_from_fdn(enm_data: List[TextElement]) -> Set[str]:
+def _parse_sites_from_fdn(enm_data: List[TextElement]) -> Set[str]:
     """Parse LTE site names from TermPointToGNB ENM data."""
     sites = set()
 
@@ -29,6 +29,15 @@ def parse_sites_from_fdn(enm_data: List[TextElement]) -> Set[str]:
             sites.add(site)
 
     return sites
+
+
+def parse_nr_configured_sites(
+    gutranetwork_data: List[ElementGroup], gutranfreqrelation_data: List[ElementGroup]
+) -> Set[str]:
+    """Parse LTE site names from GUtraNetwork and GUtranFreqRelation ENM data."""
+    sites_with_gutranetwork = _parse_sites_from_fdn(gutranetwork_data)
+    sites_with_gutrafreqrelation = _parse_sites_from_fdn(gutranfreqrelation_data)
+    return sites_with_gutranetwork & sites_with_gutrafreqrelation
 
 
 def parse_erbs_sites(enm_data: List[ElementGroup]) -> Set[str]:
