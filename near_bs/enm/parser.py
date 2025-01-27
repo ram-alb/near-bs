@@ -18,7 +18,7 @@ def _parse_fdn(fdn: str, mo_type: str) -> Optional[str]:
     return None
 
 
-def parse_termpoint_to_gnb(enm_data: List[TextElement]) -> Set[str]:
+def parse_sites_from_fdn(enm_data: List[TextElement]) -> Set[str]:
     """Parse LTE site names from TermPointToGNB ENM data."""
     sites = set()
 

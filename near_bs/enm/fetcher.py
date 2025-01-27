@@ -5,9 +5,9 @@ from enm_cli import cmedit_get_many
 from enmscripting import ElementGroup, TextElement
 
 cli_commads = {
-    "TermPointToGNB": "cmedit get *RBS* TermPointToGNB",
     "MeContext": "cmedit get *RBS_* MeContext.neType -t",
     "SubNetwork": "cmedit get *RBS_* MeContext",
+    "GUtranFreqRelation": "cmedit get *RBS* GUtranFreqRelation",
 }
 
 
