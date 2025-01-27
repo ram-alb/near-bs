@@ -11,7 +11,7 @@ def prepare_sitelist(lte_nr_pairs: List[Dict[str, str]]) -> str:
     key = "LTE site"
 
     with open(sitelist_path, "w") as sitelist:
-        for pair in lte_nr_pairs[:5]:
+        for pair in lte_nr_pairs:
             if key in pair:
                 site_name = pair[key]
                 if "TEST" in site_name:
