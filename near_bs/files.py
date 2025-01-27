@@ -14,7 +14,7 @@ def prepare_sitelist(lte_nr_pairs: List[Dict[str, str]]) -> str:
         for pair in lte_nr_pairs:
             if key in pair:
                 site_name = pair[key]
-                if "TEST" in site_name:
+                if "TEST" in site_name or "GRBS" in site_name:
                     continue
                 sitelist.write(f"{site_name}\n")
 

@@ -53,7 +53,7 @@ def _execute_mobatch(ssh_client: paramiko.SSHClient) -> None:
     mos_path = f"{REMOTE_PATH}/nrAnchor.mos"
     sitelist_path = f"{REMOTE_PATH}/{SITELIST}"
     mobatch_command = (
-        f"amosbatch -v username=rbs,password=rbs {sitelist_path} {mos_path}"
+        f"amosbatch -v username=rbs,password=rbs -p 30 {sitelist_path} {mos_path}"
     )
 
     logger.info("mobatch command execution started.")
