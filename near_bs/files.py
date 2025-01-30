@@ -1,14 +1,15 @@
 import csv
 import logging
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 
-def prepare_sitelist(lte_nr_pairs: List[Dict[str, str]]) -> str:
+def prepare_sitelist(lte_nr_pairs: List[Dict[str, str]]) -> Optional[str]:
     """Prepare a sitelist file from a list of LTE-NR site pairs."""
     sitelist_path = "sitelist.txt"
     key = "LTE site"
+    is_witten = False
 
     with open(sitelist_path, "w") as sitelist:
         for pair in lte_nr_pairs:
@@ -17,8 +18,9 @@ def prepare_sitelist(lte_nr_pairs: List[Dict[str, str]]) -> str:
                 if "TEST" in site_name or "GRBS" in site_name:
                     continue
                 sitelist.write(f"{site_name}\n")
+                is_witten = True
 
-    return sitelist_path
+    return sitelist_path if is_witten else None
 
 
 def prepare_csv(lte_nr_pairs: List[Dict[str, str]]) -> None:

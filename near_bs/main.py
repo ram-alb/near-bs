@@ -22,7 +22,8 @@ def main(run_mobatch: bool = False):
 
     if run_mobatch:
         sitelist_path = prepare_sitelist(lte_nr_pairs)
-        mobatch_result = config_nr_anchor(sitelist_path)
-        send_mobatch_result_by_mail(mobatch_result)
+        if sitelist_path:
+            mobatch_result = config_nr_anchor(sitelist_path)
+            send_mobatch_result_by_mail(mobatch_result)
     else:
         prepare_csv(lte_nr_pairs)

@@ -49,6 +49,22 @@ def _upload(ssh_client: paramiko.SSHClient, local_path: str) -> None:
         logger.info("LTE sitelist was uploaded")
 
 
+def _filter_output(output: str) -> str:
+    output_lines = output.split("\n")
+
+    separator_index = None
+    for i, line in enumerate(output_lines):
+        if set(line) == {"#"}:
+            separator_index = i
+            break
+
+    return (
+        "\n".join(output_lines[separator_index + 1 :])
+        if separator_index is not None
+        else output
+    )
+
+
 def _execute_mobatch(ssh_client: paramiko.SSHClient) -> None:
     mos_path = f"{REMOTE_PATH}/nrAnchor.mos"
     sitelist_path = f"{REMOTE_PATH}/{SITELIST}"
@@ -64,8 +80,9 @@ def _execute_mobatch(ssh_client: paramiko.SSHClient) -> None:
 
     logger.info("mobatch command execution completed.")
     if output:
-        logger.info(f"Command output:\n{output}")
-        return output
+        filtered_output = _filter_output(output)
+        logger.info(f"Command output:\n{filtered_output}")
+        return filtered_output
     if error:
         logger.error(f"Command error:\n{error}")
         return error
