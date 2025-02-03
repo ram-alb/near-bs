@@ -53,13 +53,17 @@ def _filter_output(output: str) -> str:
     output_lines = output.split("\n")
 
     separator_index = None
+    separator_count = 0
+
     for i, line in enumerate(output_lines):
         if set(line) == {"#"}:
-            separator_index = i
-            break
+            separator_count += 1
+            if separator_count == 3:
+                separator_index = i
+                break
 
     return (
-        "\n".join(output_lines[separator_index + 1 :])
+        "\n".join(output_lines[separator_index + 1:])
         if separator_index is not None
         else output
     )
